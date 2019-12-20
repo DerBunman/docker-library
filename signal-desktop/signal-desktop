@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+export HOSTNAME=$(hostname)
+export UID=$(id -u)
+export GID=$(id -g)
+if [ "$1" = "build" ]; then
+	docker-compose build --no-cache
+	exit $?
+fi
+docker-compose up -d

@@ -1,0 +1,23 @@
+version: '2'
+
+networks:
+  signal:
+
+services:
+  signal:
+    build:
+      context: ./build
+      args:
+        - HOSTNAME=$HOSTNAME
+        - USER=$USER
+        - UID=$UID
+        - GID=$GID
+    restart: always
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $PWD/home:/home/$USER
+    environment:
+      - DISPLAY=$DISPLAY
+    networks:
+      - signal
+
