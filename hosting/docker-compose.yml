@@ -1,0 +1,32 @@
+version: '2.4'
+
+networks:
+  web:
+    external: true
+
+services:
+  hosting:
+    build: $PWD/build
+    expose:
+      - 80
+    volumes:
+      - $PWD/www:/var/www/html
+      - $PWD/log:/var/log/apache2
+    environment:
+      - APACHE_RUN_USER=1000
+      - APACHE_RUN_GROUP=1000
+    restart: always
+    expose:
+      - "80"
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:eldw.babo.bunnybase.de"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.protocol=http"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.customResponseHeaders=Strict-Transport-Security:15552000||server:The Swagmachine 3000 rev7"
+
+    networks:
+      - web
